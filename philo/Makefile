@@ -1,13 +1,18 @@
-# Allowed functions:
-#	* write
-#	* read
-#	* malloc
-#	* free
-#	* exit
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: jevan-de <jevan-de@student.codam.nl>         +#+                      #
+#                                                    +#+                       #
+#    Created: 2021/10/27 11:47:23 by jevan-de      #+#    #+#                  #
+#    Updated: 2021/10/27 11:47:23 by jevan-de      ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
 
 NAME =				philo
 
-CFLAGS =			-Wall -Werror -Wextra
+CFLAGS =			-Wall -Werror -Wextra -fsanitize=address
 
 LIBS =				-lpthread
 

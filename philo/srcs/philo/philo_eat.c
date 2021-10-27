@@ -78,6 +78,11 @@ static t_fork	*use_fork(t_philo *philo, bool first, bool lock)
 	return (fork);
 }
 
+/*
+** A mutex is used to prevent the monitoring thread
+** from letting the philosopher die while its eating.
+*/
+
 int	philo_eat(t_philo *philo)
 {
 	if (!use_fork(philo, true, true) || !use_fork(philo, false, true))

@@ -12,12 +12,20 @@
 
 #include <philo.h>
 
+/*
+** When creating a philosopher, sleep for a small
+** amount of time to make sure the order of eating
+** is enforced. The startup order forces the philosophers
+** to eat in their own groups preventing one from dying
+** in cases like "4 410 200 200 10".
+*/
+
 t_philo	**config_init_philos(t_config *config)
 {
 	t_philo		**philos;
 	int			idx;
 
-	philos = (t_philo **)malloc(sizeof(t_philo *) * config->num_of_philo + 1);
+	philos = (t_philo **)malloc(sizeof(t_philo *) * config->num_of_philo);
 	if (!philos)
 		return (NULL);
 	idx = 0;
@@ -32,8 +40,8 @@ t_philo	**config_init_philos(t_config *config)
 				idx--;
 			}
 		}
+		usleep(1000);
 		idx++;
 	}
-	philos[idx] = NULL;
 	return (philos);
 }

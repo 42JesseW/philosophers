@@ -12,6 +12,10 @@
 
 #include <philo.h>
 
+// TODO 3 181 60 60
+// TODO 4 410 200 200 10 -> no philo should die
+// TODO pthread_mutex_unlock all mutexes
+
 /*
 ** [Philosophers]
 **

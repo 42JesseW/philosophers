@@ -17,7 +17,7 @@ t_fork	**config_init_forks(t_config *config)
 	t_fork	**forks;
 	int		idx;
 
-	forks = (t_fork **)malloc(sizeof(t_fork *) * config->num_of_forks + 1);
+	forks = (t_fork **)malloc(sizeof(t_fork *) * config->num_of_forks);
 	if (!forks)
 		return (NULL);
 	idx = 0;
@@ -34,6 +34,5 @@ t_fork	**config_init_forks(t_config *config)
 		}
 		idx++;
 	}
-	forks[idx] = NULL;
 	return (forks);
 }

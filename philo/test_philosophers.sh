@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# SO : https://github.com/MichelleJiam/LazyPhilosophersTester
+
 # 	- DEATH during SLEEPING state.
 #         - "> ./philo 2 800 400 900"
 #   - DEATH while waiting for fork
@@ -93,4 +95,3 @@ do
   echo
   IFS=""
 done
-echo
