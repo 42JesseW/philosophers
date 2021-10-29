@@ -30,6 +30,7 @@ SRCS =				main.c \
 					utils/parse_args.c \
 					utils/get_time_ms.c \
 					utils/safe_write_msg.c \
+					utils/check_exit.c \
 					philo/philo_destroy.c \
 					philo/philo_new.c \
 					philo/philo_run.c \
@@ -87,8 +88,11 @@ $(NAME): $(OBJS)
 	@printf "\n[$(G)INFO$(W)]: Finished building program $(NAME)\n"
 
 %.o: %.c
-	@printf "[$(G)INFO$(W)]: Creating object file %-33.33s\r" $@
-	@$(CC) -I$(INCLUDES) -c $(CFLAGS) -o $@ $<
+	@if $(CC) -I$(INCLUDES) -c $(CFLAGS) -o $@ $<; then \
+		printf "[$(G)INFO$(W)]: Successfully created object file %-33.33s\r" $@; \
+	else \
+	  	printf "[$(R)ERROR$(W)]: Failed to create object file %-33.33s\n" $@; \
+	fi
 
 clean:
 	@echo "[$(G)INFO$(W)]: Cleaning object files ..."

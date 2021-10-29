@@ -28,6 +28,13 @@
 # define MAX_LONG_LEN 20
 # define ERR "Invalid arguments: program requires at least 4 integer arguments\n"
 
+enum e_exit
+{
+	BOTH = 0,
+	SATIATED,
+	ALL_DEAD
+};
+
 enum e_state
 {
 	EATING,
@@ -64,6 +71,7 @@ typedef struct s_config
 	bool			all_satiated;
 	long long		start_time;
 	t_fork			**forks;
+	pthread_mutex_t	exit_lock;
 	pthread_mutex_t	write_lock;
 }	t_config;
 
@@ -89,6 +97,7 @@ ssize_t				safe_write_msg(t_philo *philo, enum e_msg type);
 ssize_t				safe_write_msg_long(long timestamp);
 void				destroy_objs(void **objs, int size, void (*destroy)(void*));
 bool				parse_args(int argc, char *argv[], t_config *config);
+bool				simulation_has_ended(t_config *config, enum e_exit);
 bool				is_valid_number(char *arg);
 long long			get_time_ms(void);
 

@@ -14,9 +14,10 @@
 
 int	philo_sleep(t_philo *philo)
 {
+	if (simulation_has_ended(philo->config, BOTH))
+		return (1);
+	safe_write_msg(philo, IS_SLEEPING);
 	philo->state = SLEEPING;
-	if (!philo->config->a_philo_died && !philo->config->all_satiated)
-		safe_write_msg(philo, IS_SLEEPING);
 	if (usleep(philo->config->time_to_sleep * 1000) < 0)
 		return (SYS_ERROR);
 	if (philo->state == DEAD)

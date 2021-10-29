@@ -12,10 +12,6 @@
 
 #include <philo.h>
 
-// TODO 3 181 60 60
-// TODO 4 410 200 200 10 -> no philo should die
-// TODO pthread_mutex_unlock all mutexes
-
 /*
 ** [Philosophers]
 **
@@ -140,12 +136,12 @@ int	main(int argc, char *argv[])
 	if (!config_init(&config))
 		return (EXIT_FAILURE);
 	philos = config_init_philos(&config);
-	while (!config.all_satiated && !config.a_philo_died)
+	while (!simulation_has_ended(&config, BOTH))
 		;
 	idx = 0;
 	while (idx < config.num_of_philo)
 	{
-		if (philos[idx]->state == DEAD && config.num_of_philo > 1)
+		if (simulation_has_ended(&config, SATIATED) || (philos[idx]->state == DEAD && config.num_of_philo > 1))
 			pthread_join(philos[idx]->main_tid, NULL);
 		else
 			pthread_detach(philos[idx]->main_tid);

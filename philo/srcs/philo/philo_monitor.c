@@ -29,7 +29,7 @@ void	*philo_monitor(void *thread_data)
 	t_philo		*philo;
 
 	philo = (t_philo *)thread_data;
-	while (!philo->config->a_philo_died && !philo->config->all_satiated)
+	while (!simulation_has_ended(philo->config, BOTH))
 	{
 		pthread_mutex_lock(&philo->eat_lock);
 		cur_time_ms = get_time_ms();

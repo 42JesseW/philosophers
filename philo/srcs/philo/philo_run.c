@@ -19,7 +19,7 @@ void	*philo_run(void *thread_data)
 	philo = (t_philo *)thread_data;
 	if (pthread_create(&(philo->monitor_tid), NULL, &philo_monitor, philo) != 0)
 		return (NULL);
-	while (!philo->config->a_philo_died && !philo->config->all_satiated)
+	while (!simulation_has_ended(philo->config, BOTH))
 	{
 		if (philo->state == THINKING && philo_eat(philo) != 1)
 			break ;

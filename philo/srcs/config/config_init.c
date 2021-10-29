@@ -20,7 +20,8 @@ bool	config_init(t_config *config)
 	config->forks = config_init_forks(config);
 	if (!config->forks)
 		return (false);
-	if (pthread_mutex_init(&config->write_lock, NULL) != 0)
+	if (pthread_mutex_init(&config->write_lock, NULL) != 0
+		|| pthread_mutex_init(&config->exit_lock, NULL) != 0)
 	{
 		config_destroy(config, NULL);
 		return (false);

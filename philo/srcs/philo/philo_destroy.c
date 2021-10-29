@@ -17,7 +17,7 @@ void	philo_destroy(void *obj)
 	t_philo	*philo;
 
 	philo = (t_philo *)obj;
-	if (philo->state != DEAD && !philo->config->all_satiated)
+	if (philo->state != DEAD && !simulation_has_ended(philo->config, SATIATED))
 		pthread_detach(philo->main_tid);
 	pthread_mutex_destroy(&philo->eat_lock);
 	free(philo);

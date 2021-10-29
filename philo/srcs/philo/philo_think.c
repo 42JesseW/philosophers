@@ -14,8 +14,9 @@
 
 int	philo_think(t_philo *philo)
 {
-	if (!philo->config->a_philo_died && !philo->config->all_satiated)
-		safe_write_msg(philo, IS_THINKING);
+	if (simulation_has_ended(philo->config, BOTH))
+		return (1);
+	safe_write_msg(philo, IS_THINKING);
 	philo->state = THINKING;
 	return (1);
 }

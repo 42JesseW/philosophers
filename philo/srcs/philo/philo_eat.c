@@ -71,7 +71,7 @@ static t_fork	*use_fork(t_philo *philo, bool first, bool lock)
 		fork = philo->config->forks[idx[0]];
 	if (lock && pthread_mutex_lock(&fork->lock) != 0)
 		return (NULL);
-	if (lock && !philo->config->a_philo_died && !philo->config->all_satiated)
+	if (lock && !simulation_has_ended(philo->config, BOTH))
 		safe_write_msg(philo, TAKEN_FORK);
 	if (!lock && pthread_mutex_unlock(&fork->lock) != 0)
 		return (NULL);
@@ -85,13 +85,15 @@ static t_fork	*use_fork(t_philo *philo, bool first, bool lock)
 
 int	philo_eat(t_philo *philo)
 {
+	if (simulation_has_ended(philo->config, BOTH))
+		return (1);
 	if (!use_fork(philo, true, true) || !use_fork(philo, false, true))
 		return (SYS_ERROR);
-	philo->state = EATING;
 	pthread_mutex_lock(&philo->eat_lock);
-	if (!philo->config->a_philo_died && !philo->config->all_satiated)
+	if (!simulation_has_ended(philo->config, BOTH))
 	{
 		safe_write_msg(philo, IS_EATING);
+		philo->state = EATING;
 		if (usleep(philo->config->time_to_eat * 1000) < 0)
 			return (SYS_ERROR);
 		philo->last_eat_time = get_time_ms();
