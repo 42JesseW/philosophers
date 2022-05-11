@@ -10,44 +10,24 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME =				philo
+NAME			= philo
 
-CFLAGS =			-Wall -Werror -Wextra -fsanitize=address
+CFLAGS			= -Wall -Werror -Wextra -fsanitize=address #fsanitize=thread
+LIBS 			= -lpthread
 
-LIBS =				-lpthread
+HEADER_DIR		= includes
+SRC_DIR			= srcs
 
-INCLUDES =			includes
+SRCS			= main.c \
+				  utils/utils.c \
+				  utils/ft_atoi.c \
+				  utils/ft_atol.c \
+				  utils/ft_strlen.c \
+				  utils/ft_isdigit.c
 
-SRC_DIR = 			srcs
+OBJS			= $(addprefix $(SRC_DIR)/, $(SRCS:.c=.o))
 
-SRCS =				main.c \
-					utils/ft_atoi.c \
-					utils/ft_atol.c \
-					utils/ft_isdigit.c \
-					utils/ft_strlen.c \
-					utils/is_valid_number.c \
-					utils/destroy_objs.c \
-					utils/parse_args.c \
-					utils/get_time_ms.c \
-					utils/safe_write_msg.c \
-					utils/check_exit.c \
-					philo/philo_destroy.c \
-					philo/philo_new.c \
-					philo/philo_run.c \
-					philo/philo_monitor.c \
-					philo/philo_eat.c \
-					philo/philo_think.c \
-					philo/philo_sleep.c \
-					fork/fork_destroy.c \
-					fork/fork_new.c \
-					config/config_destroy.c \
-					config/config_init.c \
-					config/config_init_forks.c \
-					config/config_init_philos.c
-
-OBJS =				$(addprefix $(SRC_DIR)/, $(SRCS:.c=.o))
-
-UNAME_S =			$(shell uname -s)
+UNAME_S			= $(shell uname -s)
 
 ifeq ($(UNAME_S), Darwin)
 	P = 			\x1b[35m
@@ -84,11 +64,11 @@ ascii:
 	@printf "$$ASCII\n"
 
 $(NAME): $(OBJS)
-	@$(CC) -I$(INCLUDES) $(CFLAGS) $(OBJS) -o $@ $(LIBS)
+	@$(CC) -I$(HEADER_DIR) $(CFLAGS) $(OBJS) -o $@ $(LIBS)
 	@printf "\n[$(G)INFO$(W)]: Finished building program $(NAME)\n"
 
 %.o: %.c
-	@if $(CC) -I$(INCLUDES) -c $(CFLAGS) -o $@ $<; then \
+	@if $(CC) -I$(HEADER_DIR) -c $(CFLAGS) -o $@ $<; then \
 		printf "[$(G)INFO$(W)]: Successfully created object file %-33.33s\r" $@; \
 	else \
 	  	printf "[$(R)ERROR$(W)]: Failed to create object file %-33.33s\n" $@; \

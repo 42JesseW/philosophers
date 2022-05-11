@@ -1,18 +1,33 @@
-cmake_minimum_required(VERSION 3.10)
-project(tests C CXX)
+cmake_minimum_required(VERSION 3.17)
+project(tests LANGUAGES C CXX)
 
-set(HEADERS catch.hpp)
-set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED True)
 
-include_directories(${PROJECT_SOURCE_DIR}/philo/includes)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
 
-file(GLOB_RECURSE TEST_SOURCES ../philo/srcs/*.c)
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-add_library(tester STATIC ${TEST_SOURCES})
+file(GLOB_RECURSE TEST_SOURCES unittests/*.cpp)
+file(GLOB_RECURSE MAIN_SOURCES ../philo/srcs/*.c)
+list(FILTER MAIN_SOURCES EXCLUDE REGEX ../srcs/main.c)
 
-file(GLOB_RECURSE SOURCES *.cpp)
+enable_testing()
 
-add_executable(tests ${SOURCES})
+add_executable(tests ${TEST_SOURCES} ${MAIN_SOURCES})
+target_include_directories(tests PUBLIC unittests PUBLIC ../philo/includes)
+target_link_libraries(tests gtest_main pthread)
 
-target_link_libraries(tests tester)
+add_definitions(-DTESTRUN)
+
+include(GoogleTest)
+gtest_discover_tests(tests)

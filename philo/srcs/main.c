@@ -5,12 +5,57 @@
 /*                                                     +:+                    */
 /*   By: jevan-de <jevan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/10/21 10:12:11 by jevan-de      #+#    #+#                 */
-/*   Updated: 2021/10/21 10:12:11 by jevan-de      ########   odam.nl         */
+/*   Created: 2022/05/11 20:00:17 by jevan-de      #+#    #+#                 */
+/*   Updated: 2022/05/11 20:00:17 by jevan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+// TODO write test cases
+bool	is_valid_number(char *arg)
+{
+	long	num;
+	int		idx;
+
+	if (!arg || !(*arg))
+		return (false);
+	idx = 0;
+	while (arg[idx])
+	{
+		if (!ft_isdigit(arg[idx]))
+			return (false);
+		num = ft_atol(arg);
+		if (num < INT_MIN || num > INT_MAX)
+			return (false);
+		idx++;
+	}
+	return (true);
+}
+
+// TODO write test cases
+int 	parse_args(int argc, char *argv[], t_config *config)
+{
+	int		idx;
+
+	if (argc < 5 || argc > 6)
+		return (PARSE_ERROR);
+	idx = 1;
+	while (argv[idx])
+	{
+		if (!is_valid_number(argv[idx]))
+			return (PARSE_ERROR);
+		idx++;
+	}
+	config->num_of_philo = ft_atoi(argv[1]);
+	config->time_to_die = ft_atoi(argv[2]);
+	config->time_to_eat = ft_atoi(argv[3]);
+	config->time_to_sleep = ft_atoi(argv[4]);
+	config->num_philo_must_eat = MISSING_OPTION;
+	if (argc == 6)
+		config->num_philo_must_eat = ft_atoi(argv[5]);
+	return (SUCCESS);
+}
 
 /*
 ** [Philosophers]
@@ -124,29 +169,13 @@
 
 int	main(int argc, char *argv[])
 {
-	t_philo		**philos;
 	t_config	config;
-	int			idx;
 
-	if (!parse_args(argc, argv, &config))
+	if (parse_args(argc, argv, &config) == SYS_ERROR)
 	{
-		write(STDERR_FILENO, ERR, 65);
+		printf("%s\n", ARG_ERROR);
 		return (EXIT_FAILURE);
 	}
-	if (!config_init(&config))
-		return (EXIT_FAILURE);
-	philos = config_init_philos(&config);
-	while (!simulation_has_ended(&config, BOTH))
-		;
-	idx = 0;
-	while (idx < config.num_of_philo)
-	{
-		if (simulation_has_ended(&config, SATIATED) || (philos[idx]->state == DEAD && config.num_of_philo > 1))
-			pthread_join(philos[idx]->main_tid, NULL);
-		else
-			pthread_detach(philos[idx]->main_tid);
-		idx++;
-	}
-	config_destroy(&config, philos);
+	log_state(&config, 1, DEAD);
 	return (EXIT_SUCCESS);
 }
