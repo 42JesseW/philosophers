@@ -55,13 +55,13 @@ The more mutexes, the slower the program becomes. I already need one mutex per f
 ```c
 typedef struct s_table
 {
-	t_fork			*forks;
-	int				fork_amount;
-	int				__unsafe_saturated_count;
-	bool			__unsafe_allowed_to_write;
-	bool			__unsafe_someone_died;
-	bool			__unsafe_all_saturated;
-	pthread_mutex_t	lock;
+	t_fork          *forks;
+	int             fork_amount;
+	int             __unsafe_saturated_count;
+	bool            __unsafe_allowed_to_write;
+	bool            __unsafe_someone_died;
+	bool            __unsafe_all_saturated;
+	pthread_mutex_t lock;
 }	t_table;
 ```
 
