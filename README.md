@@ -1,6 +1,6 @@
 # Philosophers
 
-This project teaches you how to use mutexes and threads in the C programming language using a famous problem called the [philosophers problem](https://en.wikipedia.org/wiki/Dining_philosophers_problem). In short the philosopher problem describes a simulation where *X* amount of philosophers are sitting around a table with *X* amount of forks. In the middle of the table is a bowl of spagetthi from which they all want to eat. The simulation has 3 input parameters. Time it takes for a philosopher to die *A*, time it takes for a philosopher to eat *B* and time a philosopher takes to sleep *C*. When one of the philosophers dies the simulation ends. In this problem the philosopher represents the thread and the fork represents the resource that needs protecting (i.e. with a mutex).
+This project teaches you how to use mutexes and threads in the C programming language using a famous problem called the [philosophers problem](https://en.wikipedia.org/wiki/Dining_philosophers_problem). In short the philosopher problem describes a simulation where *X* amount of philosophers are sitting around a table with *X* amount of forks. In the middle of the table is a bowl of spaghetti from which they all want to eat. The simulation has 3 input parameters. Time it takes for a philosopher to die *A*, time it takes for a philosopher to eat *B* and time a philosopher takes to sleep *C*. When one of the philosophers dies the simulation ends. In this problem the philosopher represents the thread and the fork represents the resource that needs protecting (i.e. with a mutex).
 
 When the simulation starts, each philosopher will want to start eating but there is a constraint. A philosopher needs **2** forks to start eating and they can't share forks. As stated above, there are as many forks as there are philosophers. Your job is to keep the simulation going for as long as possible with the philosophers eating as efficiently as possible.
 
@@ -14,8 +14,8 @@ Philosophers cycle through the following states:
 ```mermaid
 flowchart LR
 	A["1. Eat"] --> B
-	B["2. Think"] --> C
-	C["3. Sleep"] --> A
+	B["2. Sleep"] --> C
+	C["3. Think"] --> A
 ```
 
 ## Usage
