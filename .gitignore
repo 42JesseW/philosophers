@@ -3,6 +3,5 @@
 *.o
 cmake-build-debug/
 .DS_Store
-/philo
 *.a
 *.pdf
